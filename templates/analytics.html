@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard | Inventra{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">Analytics & Business Intelligence</h2>
+            <p class="text-muted mb-0">
+                Understand your supermarket's sales performance
+            </p>
+        </div>
+
+        <button class="btn btn-dark" onclick="loadAnalytics()">
+            <i class="bi bi-arrow-clockwise"></i> Refresh Analytics
+        </button>
+
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-2">Total Sales</p>
+                            <h3 class="fw-bold" id="totalSales">0</h3>
+                        </div>
+
+                        <i class="bi bi-receipt text-primary fs-2"></i>
+                    </div>
+
+                    <small class="text-muted">Completed transactions</small>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-2">Total Revenue</p>
+                            <h3 class="fw-bold text-success" id="totalRevenue">₹0</h3>
+                        </div>
+
+                        <i class="bi bi-currency-rupee text-success fs-2"></i>
+                    </div>
+
+                    <small class="text-muted">Revenue from completed sales</small>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-2">Average Order Value</p>
+                            <h3 class="fw-bold text-primary" id="averageOrder">₹0</h3>
+                        </div>
+
+                        <i class="bi bi-cart-check text-primary fs-2"></i>
+                    </div>
+
+                    <small class="text-muted">Average revenue per transaction</small>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DAILY SALES CHART -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-12">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-0 pt-4">
+
+                    <h5 class="fw-bold mb-1">Daily Sales Performance</h5>
+
+                    <small class="text-muted">
+                        Revenue generated on each sales date
+                    </small>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div style="height:320px;">
+                        <canvas id="dailySalesChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MONTHLY CHART -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-12">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-0 pt-4">
+
+                    <h5 class="fw-bold mb-1">Monthly Revenue Analysis</h5>
+
+                    <small class="text-muted">
+                        Revenue comparison across available months
+                    </small>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div style="height:320px;">
+                        <canvas id="monthlySalesChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BEST SELLING PRODUCTS -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white border-0 pt-4">
+
+            <h5 class="fw-bold mb-1">Top 10 Best-Selling Products</h5>
+
+            <small class="text-muted">
+                Products ranked by total units sold
+            </small>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>Rank</th>
+                            <th>Product</th>
+                            <th>Units Sold</th>
+                            <th>Total Revenue</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="bestSellingTableBody">
+
+                        <tr>
+                            <td colspan="4" class="text-center py-4">
+                                Loading analytics...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/analytics.js"></script>
+
+{% endblock %}

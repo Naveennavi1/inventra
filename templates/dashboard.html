@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Inventra{% endblock %}
+
+{% block crumb %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="page-heading">
+
+    <div>
+        <span class="eyebrow pink-eyebrow">BUSINESS OVERVIEW</span>
+
+        <h1>
+            Good day, <span id="welcomeName">Admin</span>
+        </h1>
+
+        <p>Your supermarket business at a glance.</p>
+    </div>
+
+    <div class="heading-date">
+        <i class="bi bi-calendar3"></i>
+        <span id="todayDate"></span>
+    </div>
+
+</div>
+
+
+<!-- MAIN KPI CARDS -->
+
+<div class="kpi-grid">
+
+    <article class="kpi-card kpi-rose">
+        <div class="kpi-top">
+            <span>Total Products</span>
+            <span class="kpi-icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+        </div>
+
+        <strong id="totalProducts">—</strong>
+        <small>Products in catalogue</small>
+    </article>
+
+
+    <article class="kpi-card kpi-teal">
+        <div class="kpi-top">
+            <span>Total Revenue</span>
+            <span class="kpi-icon">
+                <i class="bi bi-currency-rupee"></i>
+            </span>
+        </div>
+
+        <strong id="totalRevenue">—</strong>
+        <small>Completed sales revenue</small>
+    </article>
+
+
+    <article class="kpi-card kpi-amber">
+        <div class="kpi-top">
+            <span>Low Stock Items</span>
+            <span class="kpi-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </span>
+        </div>
+
+        <strong id="lowStockCount">—</strong>
+        <small>Need replenishment</small>
+    </article>
+
+
+    <article class="kpi-card kpi-violet">
+        <div class="kpi-top">
+            <span>Total Sales</span>
+            <span class="kpi-icon">
+                <i class="bi bi-receipt"></i>
+            </span>
+        </div>
+
+        <strong id="totalSales">—</strong>
+        <small>Completed transactions</small>
+    </article>
+
+</div>
+
+
+<!-- INVENTORY INTELLIGENCE -->
+
+<div class="section-heading mt-4 mb-3">
+
+    <div>
+        <span class="eyebrow pink-eyebrow">INVENTORY INTELLIGENCE</span>
+        <h3>Stock Health Overview</h3>
+    </div>
+
+    <a href="/inventory-page" class="text-link">
+        View inventory <i class="bi bi-arrow-up-right"></i>
+    </a>
+
+</div>
+
+
+<div class="kpi-grid">
+
+    <article class="kpi-card kpi-rose">
+        <div class="kpi-top">
+            <span>Products to Reorder</span>
+            <span class="kpi-icon">
+                <i class="bi bi-arrow-repeat"></i>
+            </span>
+        </div>
+
+        <strong id="reorderCount">—</strong>
+        <small>Require replenishment</small>
+    </article>
+
+
+    <article class="kpi-card kpi-amber">
+        <div class="kpi-top">
+            <span>Critical Stock</span>
+            <span class="kpi-icon">
+                <i class="bi bi-exclamation-octagon"></i>
+            </span>
+        </div>
+
+        <strong id="criticalStock">—</strong>
+        <small>Urgent replenishment</small>
+    </article>
+
+
+    <article class="kpi-card kpi-violet">
+        <div class="kpi-top">
+            <span>Dead Stock Value</span>
+            <span class="kpi-icon">
+                <i class="bi bi-box2"></i>
+            </span>
+        </div>
+
+        <strong id="deadStockValue">—</strong>
+        <small>Value of inactive inventory</small>
+    </article>
+
+
+    <article class="kpi-card kpi-teal">
+        <div class="kpi-top">
+            <span>Recommended Units</span>
+            <span class="kpi-icon">
+                <i class="bi bi-cart-plus"></i>
+            </span>
+        </div>
+
+        <strong id="recommendedUnits">—</strong>
+        <small>Suggested reorder quantity</small>
+    </article>
+
+</div>
+
+
+<!-- EXPIRY OVERVIEW -->
+
+<div class="section-heading mt-4 mb-3">
+
+    <div>
+        <span class="eyebrow pink-eyebrow">EXPIRY MONITORING</span>
+        <h3>Expiry Risk Overview</h3>
+    </div>
+
+    <a href="/expiry-page" class="text-link">
+        View expiry report <i class="bi bi-arrow-up-right"></i>
+    </a>
+
+</div>
+
+
+<div class="kpi-grid">
+
+    <article class="kpi-card kpi-rose">
+        <div class="kpi-top">
+            <span>Batches at Risk</span>
+            <span class="kpi-icon">
+                <i class="bi bi-calendar-x"></i>
+            </span>
+        </div>
+
+        <strong id="batchesAtRisk">—</strong>
+        <small>Expiry within 30 days</small>
+    </article>
+
+
+    <article class="kpi-card kpi-amber">
+        <div class="kpi-top">
+            <span>Expired Batches</span>
+            <span class="kpi-icon">
+                <i class="bi bi-x-circle"></i>
+            </span>
+        </div>
+
+        <strong id="expiredBatches">—</strong>
+        <small>Past expiry date</small>
+    </article>
+
+
+    <article class="kpi-card kpi-violet">
+        <div class="kpi-top">
+            <span>Critical Expiry</span>
+            <span class="kpi-icon">
+                <i class="bi bi-alarm"></i>
+            </span>
+        </div>
+
+        <strong id="criticalExpiry">—</strong>
+        <small>Expires today or within 7 days</small>
+    </article>
+
+
+    <article class="kpi-card kpi-teal">
+        <div class="kpi-top">
+            <span>Expiry Value at Risk</span>
+            <span class="kpi-icon">
+                <i class="bi bi-currency-rupee"></i>
+            </span>
+        </div>
+
+        <strong id="expiryValue">—</strong>
+        <small>Stock value within 30 days</small>
+    </article>
+
+</div>
+
+
+<!-- CHART AND BEST SELLING PRODUCTS -->
+
+<div class="dashboard-grid mt-4">
+
+    <section class="content-card chart-card">
+
+        <div class="card-heading">
+
+            <div>
+                <h3>Sales Performance</h3>
+                <p>Monthly revenue overview</p>
+            </div>
+
+            <span class="soft-tag">
+                <i class="bi bi-graph-up-arrow"></i>
+                Revenue
+            </span>
+
+        </div>
+
+        <div class="chart-wrap">
+
+            <canvas id="salesChart"></canvas>
+
+            <div class="empty-chart" id="salesChartEmpty">
+                Sales analytics will appear here when data is available.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-card">
+
+        <div class="card-heading">
+
+            <div>
+                <h3>Best-Selling Products</h3>
+                <p>Top performers by units sold</p>
+            </div>
+
+            <a href="/products" class="text-link">
+                View products
+            </a>
+
+        </div>
+
+        <div class="top-products" id="topProducts">
+
+            <div class="loading-line">
+                Loading product insights...
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- LOW STOCK TABLE -->
+
+<section class="content-card table-card mt-4">
+
+    <div class="card-heading">
+
+        <div>
+            <h3>Low Stock Alerts</h3>
+            <p>Products that have reached their reorder level</p>
+        </div>
+
+        <a href="/reorder-page" class="btn-outline-custom">
+            Manage reorders
+            <i class="bi bi-arrow-up-right"></i>
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table inventory-table">
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Current Quantity</th>
+                    <th>Reorder Level</th>
+                    <th>Alert</th>
+                </tr>
+            </thead>
+
+            <tbody id="lowStockTable">
+
+                <tr>
+                    <td colspan="4" class="text-center py-4 muted">
+                        Loading inventory...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+<script src="/static/js/dashboard.js"></script>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Reordering | Inventra{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Smart Reordering</h2>
+            <p class="text-muted mb-0">
+                Intelligent stock monitoring and reorder recommendations
+            </p>
+        </div>
+
+        <button class="btn btn-dark" onclick="loadReorderData()">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Products to Reorder</p>
+                    <h3 class="fw-bold" id="totalReorder">0</h3>
+                    <i class="bi bi-box-seam text-primary fs-4"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Critical Products</p>
+                    <h3 class="fw-bold text-danger" id="criticalProducts">0</h3>
+                    <i class="bi bi-exclamation-triangle text-danger fs-4"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">High Priority</p>
+                    <h3 class="fw-bold text-warning" id="highProducts">0</h3>
+                    <i class="bi bi-arrow-up-circle text-warning fs-4"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Medium Priority</p>
+                    <h3 class="fw-bold text-info" id="mediumProducts">0</h3>
+                    <i class="bi bi-info-circle text-info fs-4"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Recommended Units</p>
+                    <h3 class="fw-bold text-success" id="totalUnits">0</h3>
+                    <i class="bi bi-cart-check text-success fs-4"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Recommendations Table -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white border-0 pt-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+                    <h5 class="fw-bold mb-1">Reorder Recommendations</h5>
+                    <small class="text-muted">
+                        Products that require stock replenishment
+                    </small>
+                </div>
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="reorderSearch"
+                        placeholder="Search products..."
+                        style="max-width:220px;"
+                    >
+
+                    <select class="form-select" id="priorityFilter">
+                        <option value="ALL">All Priorities</option>
+                        <option value="CRITICAL">Critical</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                    </select>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Target Stock</th>
+                            <th>Recommended Qty</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="reorderTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                Loading recommendations...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="text-muted small mt-3" id="reorderCount">
+                0 products found
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="/static/js/reorder.js"></script>
+{% endblock %}

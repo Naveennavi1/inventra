@@ -1,0 +1,476 @@
+
+{% extends "base.html" %}
+
+{% block title %}Inventory Management | Inventra{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ================================= -->
+    <!-- PAGE HEADER -->
+    <!-- ================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">Inventory Management</h2>
+
+            <p class="text-muted mb-0">
+                Monitor stock levels and manage inventory movements.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-outline-primary"
+                    onclick="loadInventory()">
+                <i class="bi bi-arrow-clockwise"></i>
+                Refresh
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="openStockModal('IN')">
+                <i class="bi bi-plus-circle"></i>
+                Stock In
+            </button>
+
+            <button class="btn btn-danger"
+                    onclick="openStockModal('OUT')">
+                <i class="bi bi-dash-circle"></i>
+                Stock Out
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- INVENTORY STATISTICS -->
+    <!-- ================================= -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Products Tracked
+                    </p>
+
+                    <h3 id="totalTracked">0</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Total Stock Units
+                    </p>
+
+                    <h3 id="totalUnits">0</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Low Stock Items
+                    </p>
+
+                    <h3 id="lowStockCount">0</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Out of Stock
+                    </p>
+
+                    <h3 id="outOfStockCount">0</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- CURRENT INVENTORY TABLE -->
+    <!-- ================================= -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="fw-bold mb-0">
+                    Current Inventory
+                </h5>
+
+                <input
+                    type="text"
+                    id="inventorySearch"
+                    class="form-control"
+                    placeholder="Search products..."
+                    style="max-width:260px;"
+                >
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Stock Status</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="inventoryTableBody">
+
+                        <tr>
+                            <td colspan="6"
+                                class="text-center text-muted py-4">
+
+                                Loading inventory...
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- RECENT STOCK MOVEMENTS -->
+    <!-- ================================= -->
+
+    <div class="card border-0 shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">
+                Recent Stock Movements
+            </h5>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Product</th>
+                            <th>Movement Type</th>
+                            <th>Quantity</th>
+                            <th>Note</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="movementTableBody">
+
+                        <tr>
+                            <td colspan="5"
+                                class="text-center text-muted py-4">
+
+                                Loading movements...
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- STOCK IN / STOCK OUT MODAL -->
+<!-- ================================= -->
+
+<div class="modal fade"
+     id="stockModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title fw-bold"
+                    id="stockModalTitle">
+
+                    Stock Movement
+
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="stockMovementForm">
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Product
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="stockProduct"
+                            required>
+
+                            <option value="">
+                                Select Product
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="stockQuantity"
+                            min="1"
+                            step="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Note
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="stockNote"
+                            rows="3"
+                            placeholder="Enter movement details">
+                        </textarea>
+
+                    </div>
+
+
+                    <input
+                        type="hidden"
+                        id="movementType"
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+
+                        Save Movement
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- STOCK HISTORY MODAL -->
+<!-- ================================= -->
+
+<div class="modal fade"
+     id="historyModal"
+     tabindex="-1"
+     aria-labelledby="historyModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow">
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5 class="modal-title fw-bold"
+                        id="historyModalLabel">
+
+                        <i class="bi bi-clock-history me-2"></i>
+                        Stock Movement History
+
+                    </h5>
+
+                    <small
+                        class="text-muted"
+                        id="historyProductName">
+
+                        Product history
+
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <!-- BODY -->
+
+            <div class="modal-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+                                <th>Movement</th>
+                                <th>Quantity</th>
+                                <th>Description</th>
+                                <th>Date & Time</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="historyTableBody">
+
+                            <tr>
+
+                                <td colspan="4"
+                                    class="text-center text-muted py-4">
+
+                                    No history loaded.
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- INVENTORY JAVASCRIPT -->
+<!-- ================================= -->
+
+<script src="/static/js/inventory.js"></script>
+
+{% endblock %}

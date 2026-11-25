@@ -1,0 +1,431 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Inventra{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/style.css?v=3">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body class="app-body">
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <a class="brand" href="/dashboard">
+            <span class="brand-mark">
+                <i class="bi bi-cart4"></i>
+            </span>
+
+            <span>
+                <strong>Inventra</strong>
+                <small>INVENTORY MANAGEMENT</small>
+            </span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <nav class="side-nav">
+
+            <a href="/dashboard" data-page="dashboard">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/products" data-page="products">
+                <i class="bi bi-box-seam"></i>
+                <span>Products</span>
+            </a>
+
+            <a href="/categories-page" data-page="categories-page">
+                <i class="bi bi-tags"></i>
+                <span>Categories</span>
+            </a>
+
+            <a href="/suppliers-page" data-page="suppliers-page">
+                <i class="bi bi-truck"></i>
+                <span>Suppliers</span>
+            </a>
+
+            <a href="/inventory-page" data-page="inventory-page">
+                <i class="bi bi-box-seam"></i>
+                <span>Inventory</span>
+            </a>
+
+            <a href="/purchases-page" data-page="purchases-page">
+                <i class="bi bi-cart-check"></i>
+                <span>Purchases</span>
+            </a>
+
+            <a href="/sales-page" data-page="sales-page">
+                <i class="bi bi-receipt"></i>
+                <span>Sales</span>
+            </a>
+
+            <a href="/reorder-page" data-page="reorder-page">
+                <i class="bi bi-arrow-repeat"></i>
+                <span>Smart Reordering</span>
+            </a>
+
+            <a href="/dead-stock-page" data-page="dead-stock-page">
+                <i class="bi bi-exclamation-triangle"></i>
+                <span>Dead Stock</span>
+            </a>
+
+            <a href="/batches-page" data-page="batches-page">
+                <i class="bi bi-boxes"></i>
+                <span>Batch Management</span>
+            </a>
+
+            <a href="/expiry-page" data-page="expiry-page">
+                <i class="bi bi-calendar-x"></i>
+                <span>Expiry Monitoring</span>
+            </a>
+
+            <a href="/analytics-page" data-page="analytics-page">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Analytics</span>
+            </a>
+
+        </nav>
+
+        <div class="nav-label admin-label">ADMINISTRATION</div>
+
+        <nav class="side-nav">
+
+            <a href="/dashboard#users">
+                <i class="bi bi-people"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="/dashboard#settings">
+                <i class="bi bi-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-help">
+
+            <div class="help-icon">
+                <i class="bi bi-headset"></i>
+            </div>
+
+            <strong>Need assistance?</strong>
+
+            <p>Manage your store with confidence.</p>
+
+            <a href="mailto:support@inventra.local">
+                Contact support
+                <i class="bi bi-arrow-up-right"></i>
+            </a>
+
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+            <i class="bi bi-box-arrow-left"></i>
+            Sign out
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-area">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <button class="mobile-menu" id="mobileMenu">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="breadcrumb-line">
+                <span>Inventra</span>
+                <i class="bi bi-chevron-right"></i>
+                <strong>{% block crumb %}Overview{% endblock %}</strong>
+            </div>
+
+            <div class="top-actions">
+
+                <!-- SEARCH -->
+                <div class="global-search-wrapper">
+
+                    <label class="global-search">
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="search"
+                            placeholder="Search products, categories, suppliers..."
+                            id="globalSearch"
+                            autocomplete="off">
+                    </label>
+
+                    <div id="searchResults" class="search-results"></div>
+
+                </div>
+
+
+                <!-- NOTIFICATIONS -->
+                <div class="dropdown">
+
+                    <button
+                        class="icon-btn"
+                        id="notificationButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                        <i class="bi bi-bell"></i>
+
+                        <span class="notification-dot" id="notificationDot"></span>
+
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end notification-menu">
+
+                        <div class="notification-header">
+                            <strong>Notifications</strong>
+                            <span id="notificationCount">0</span>
+                        </div>
+
+                        <div id="notificationList">
+                            <div class="notification-empty">
+                                Loading notifications...
+                            </div>
+                        </div>
+
+                        <div class="notification-footer">
+                            <button type="button" id="refreshNotifications">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                Refresh
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- USER PROFILE -->
+                <div class="dropdown">
+
+                    <button
+                        class="user-chip user-chip-button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                        <div class="avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+
+                        <div class="user-chip-info">
+                            <strong id="navUsername">Admin User</strong>
+                            <small id="navRole">Administrator</small>
+                        </div>
+
+                        <i class="bi bi-chevron-down"></i>
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end user-menu">
+
+                        <li>
+                            <div class="user-menu-profile">
+                                <strong id="profileUsername">Admin User</strong>
+                                <small id="profileEmail">Email not available</small>
+                                <span id="profileRole">User</span>
+                            </div>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <button class="dropdown-item" id="viewProfileBtn">
+                                <i class="bi bi-person"></i>
+                                My Profile
+                            </button>
+                        </li>
+
+                        <li>
+                            <button class="dropdown-item" id="openSettingsBtn">
+                                <i class="bi bi-gear"></i>
+                                Settings
+                            </button>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <button class="dropdown-item text-danger" id="topLogoutBtn">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Sign Out
+                            </button>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <section class="page-content">
+            {% block content %}{% endblock %}
+        </section>
+
+        <footer class="app-footer">
+            © 2026 Inventra · Intelligent Inventory Management
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- PROFILE MODAL -->
+<div class="modal fade" id="profileModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">My Profile</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="text-center mb-4">
+                    <div class="profile-avatar">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <h5 id="modalProfileName">Admin User</h5>
+                    <span id="modalProfileRole">Administrator</span>
+                </div>
+
+                <div class="profile-detail">
+                    <strong>Username</strong>
+                    <span id="modalUsername">-</span>
+                </div>
+
+                <div class="profile-detail">
+                    <strong>Email</strong>
+                    <span id="modalEmail">Not available</span>
+                </div>
+
+                <div class="profile-detail">
+                    <strong>Role</strong>
+                    <span id="modalRole">-</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SETTINGS MODAL -->
+<div class="modal fade" id="settingsModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-gear me-2"></i>
+                    Application Settings
+                </h5>
+
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <h6 class="mb-3">Notification Preferences</h6>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox"
+                        id="lowStockPreference" checked>
+                    <label class="form-check-label" for="lowStockPreference">
+                        Low stock alerts
+                    </label>
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox"
+                        id="expiryPreference" checked>
+                    <label class="form-check-label" for="expiryPreference">
+                        Expiry alerts
+                    </label>
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox"
+                        id="reorderPreference" checked>
+                    <label class="form-check-label" for="reorderPreference">
+                        Reorder alerts
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+
+                <button class="btn btn-primary" id="saveSettingsBtn">
+                    Save Settings
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"
+    id="toastContainer">
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="/static/js/api.js"></script>
+<script src="/static/js/app.js?v=2"></script>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>
